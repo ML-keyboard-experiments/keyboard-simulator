@@ -61,7 +61,7 @@ fn main() -> ! {
 
     // indicate start of simulation
     delay.delay_ms(100);
-    trigger_pin.set_high().unwrap();
+    trigger_pin.set_low().unwrap();
 
     // 8 h: idle
     simulate_idle(&mut delay, 60 * 1000 * 8);
@@ -81,7 +81,7 @@ fn main() -> ! {
     simulate_idle(&mut delay, 60 * 1000 * 2);
 
     // indicate end of simulation
-    trigger_pin.set_low().unwrap();
+    trigger_pin.set_high().unwrap();
 
     panic!();
 }
