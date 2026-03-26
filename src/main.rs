@@ -13,10 +13,8 @@ const PRESSED_TIME: u32 = 10;
 
 #[entry]
 fn main() -> ! {
-    // Get access to the device peripherals
     let p = hal::pac::Peripherals::take().unwrap();
 
-    // Split the GPIO port into individual pins
     let port0 = hal::gpio::p0::Parts::new(p.P0);
 
     //    ┌───────────────────────────────────────────────────┐
@@ -38,16 +36,12 @@ fn main() -> ! {
     //    └──────────────────┘
 
     // [1]
-    // next song
     let mut button1 = port0.p0_04.into_push_pull_output(Level::Low).degrade();
     // [4]
-    // mute
     let mut button4 = port0.p0_28.into_push_pull_output(Level::Low).degrade();
     // [3]
-    // play
     let mut button3 = port0.p0_29.into_push_pull_output(Level::Low).degrade();
     // [2]
-    // prev song
     let mut button2 = port0.p0_03.into_push_pull_output(Level::Low).degrade();
 
     let mut trigger_pin = port0.p0_05.into_push_pull_output(Level::High);
@@ -55,12 +49,11 @@ fn main() -> ! {
     let mut buttons: [&mut dyn OutputPin<Error = Infallible>; 4] =
         [&mut button1, &mut button2, &mut button3, &mut button4];
 
-    // Get access to the core peripherals for delay
     let core = hal::pac::CorePeripherals::take().unwrap();
     let mut delay = hal::delay::Delay::new(core.SYST);
 
-    // indicate start of simulation
     delay.delay_ms(100);
+    // indicate start of simulation
     trigger_pin.set_low().unwrap();
 
     // 8 h: idle
